@@ -1,14 +1,20 @@
 package com.leverx.spring.test.workers.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
-@Data
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.FetchType.LAZY;
+
+@Getter
+@Setter
 @Entity
+@Builder
 @Table(name = "workers")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,4 +30,22 @@ public class Worker {
 
     @Column(name = "password")
     private String password;
+
+    @ManyToMany(fetch = LAZY)
+    @JoinTable(
+            name = "jobs_workers",
+            joinColumns = @JoinColumn(name = "worker_id"),
+            inverseJoinColumns = @JoinColumn(name = "job_id")
+    )
+    private Set<Job> jobs;
+
+    public void addJob(Job job) {
+        this.jobs.add(job);
+        job.getWorkers().add(this);
+    }
+
+    public void removeJob(Job job) {
+        this.jobs.remove(job);
+        job.getWorkers().remove(this);
+    }
 }

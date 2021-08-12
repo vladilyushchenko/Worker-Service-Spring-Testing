@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.ok;
@@ -19,7 +19,7 @@ public class WorkerController {
     private final WorkerService workerService;
 
     @GetMapping
-    public ResponseEntity<List<WorkerDto>> findAll() {
+    public ResponseEntity<Set<WorkerDto>> findAll() {
         return ok(workerService.findAll());
     }
 
