@@ -9,8 +9,8 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class ShortcutWorkerDto {
 
     private UUID id;

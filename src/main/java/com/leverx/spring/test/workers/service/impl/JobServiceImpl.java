@@ -30,9 +30,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public Set<JobDto> findAll() {
         return jobMapper.mapEntitySetToDto(
-                fetchLazyWorkers(
-                        newHashSet(jobRepository.findAll())
-                )
+                newHashSet(jobRepository.findAllWithFetchedWorkers())
         );
     }
 
@@ -65,12 +63,7 @@ public class JobServiceImpl implements JobService {
                 () -> new RuntimeException("No job with id " + jobId + ")))")
         );
         Worker worker = workerMapper.mapDtoToEntity(workerService.findById(workerId));
-        worker.addJob(job);
+        job.addWorker(worker);
         jobRepository.save(job);
-    }
-
-    private Set<Job> fetchLazyWorkers(Set<Job> jobs) {
-        jobs.forEach(job -> job.getWorkers().size());
-        return jobs;
     }
 }

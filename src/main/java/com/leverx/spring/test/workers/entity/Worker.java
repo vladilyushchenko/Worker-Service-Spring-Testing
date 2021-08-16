@@ -1,6 +1,9 @@
 package com.leverx.spring.test.workers.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Loader;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -12,12 +15,24 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Setter
-@Entity
 @Builder
-@Table(name = "workers")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Worker {
+
+@Entity
+@Table(name = "workers")
+@SQLDelete(sql = "" +
+        "UPDATE workers " +
+        "SET deleted = true " +
+        "WHERE id = ?")
+@Loader(namedQuery = "findWorkerById")
+@NamedQuery(name = "findWorkerById", query =
+        "SELECT w " +
+        "FROM Worker w " +
+        "WHERE w.id = ?1 " +
+        "AND w.deleted = FALSE")
+@Where(clause = "deleted = false")
+public class Worker extends BaseEntity {
 
     @Id
     @Column(name = "id")

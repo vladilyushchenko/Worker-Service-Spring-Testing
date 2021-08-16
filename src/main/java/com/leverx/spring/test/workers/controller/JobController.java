@@ -32,4 +32,9 @@ public class JobController {
     public void addWorkerToJob(@PathVariable Long id, @RequestParam("workerId") UUID workerId) {
         jobService.addWorkerToJob(id, workerId);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteJobById(@PathVariable Long id) {
+        jobService.deleteById(id);
+    }
 }
