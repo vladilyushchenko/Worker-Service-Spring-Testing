@@ -3,11 +3,10 @@ package com.leverx.spring.test.workers.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import static javax.persistence.CascadeType.ALL;
+import static com.google.common.collect.Sets.newHashSet;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
 
@@ -31,7 +30,7 @@ public class Worker {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = LAZY)
+    @ManyToMany(fetch = LAZY, cascade = { PERSIST })
     @JoinTable(
             name = "jobs_workers",
             joinColumns = @JoinColumn(name = "worker_id"),
@@ -40,12 +39,17 @@ public class Worker {
     private Set<Job> jobs;
 
     public void addJob(Job job) {
+        if (this.jobs == null) {
+            jobs = newHashSet();
+        }
         this.jobs.add(job);
         job.getWorkers().add(this);
     }
 
     public void removeJob(Job job) {
-        this.jobs.remove(job);
-        job.getWorkers().remove(this);
+        if (this.jobs != null) {
+            this.jobs.remove(job);
+            job.getWorkers().remove(this);
+        }
     }
 }

@@ -2,51 +2,21 @@ package com.leverx.spring.test.workers.mapper;
 
 import com.leverx.spring.test.workers.dto.JobDto;
 import com.leverx.spring.test.workers.entity.Job;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+import java.util.Set;
+
+@Mapper(componentModel = "spring", uses = ShortcutWorkerMapper.class)
 public interface JobMapper {
 
-    JobMapper JOB_MAPPER = Mappers.getMapper(JobMapper.class);
+    @Mapping(source = "workers", target = "workersDto")
+    JobDto mapEntityToDto(Job job);
 
-    JobDto matFromEntityToDto(Job job);
+    @Mapping(source = "workersDto", target = "workers")
+    Job mapDtoToEntity(JobDto jobDto);
 
-    @InheritInverseConfiguration
-    Job mapFromDtoToEntity(JobDto jobDto);
+    Set<Job> mapDtoSetToEntity(Set<JobDto> jobsDto);
+
+    Set<JobDto> mapEntitySetToDto(Set<Job> jobs);
 }
-
-//
-//import com.google.common.collect.Sets;
-//import com.leverx.spring.test.workers.dto.JobDto;
-//import com.leverx.spring.test.workers.entity.Job;
-//import org.mapstruct.Mapper;
-//import org.springframework.beans.factory.annotation.Autowired;
-//
-//import java.util.Set;
-//
-//@Mapper(componentModel = "spring")
-//public abstract class JobMapper {
-//
-//    @Autowired
-//    private WorkerMapper workerMapper;
-//
-//    public JobDto mapEntityToDto(Job job) {
-//        return new JobDto(job.getId(), job.getName(),
-//                job.getWorkers() != null
-//                        ? workerMapper.mapEntitySetToDto(Sets.newHashSet(job.getWorkers()))
-//                        : null);
-//    }
-//
-//    public Job mapDtoToEntity(JobDto jobDto) {
-//        return new Job(jobDto.getId(), jobDto.getName(),
-//                jobDto.getWorkersDto() != null
-//                        ? workerMapper.mapDtoSetToEntity(jobDto.getWorkersDto())
-//                        : null);
-//    }
-//
-//    public abstract Set<Job> mapDtoListToEntity(Set<JobDto> jobsDto);
-//
-//    public abstract Set<JobDto> mapEntityListToDto(Set<Job> jobs);
-//}

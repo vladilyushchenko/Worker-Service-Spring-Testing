@@ -23,32 +23,29 @@ public class WorkerServiceImpl implements WorkerService {
 
     @Override
     public Set<WorkerDto> findAll() {
-        return null;
-//        return workerMapper.mapEntitySetToDto(
-//                fetchLazyJobs(
-//                        newHashSet(workerRepository.findAll())
-//                )
-//        );
+        return workerMapper.mapEntitySetToDto(
+                fetchLazyJobs(
+                        newHashSet(workerRepository.findAll())
+                )
+        );
     }
 
     @Override
     public WorkerDto create(WorkerDto workerDto) {
-        return null;
-//        return workerMapper.mapEntityToDto(
-//                workerRepository.save(
-//                        workerMapper.mapDtoToEntity(workerDto)
-//                )
-//        );
+        return workerMapper.mapEntityToDto(
+                workerRepository.save(
+                        workerMapper.mapDtoToEntity(workerDto)
+                )
+        );
     }
 
     @Override
     public WorkerDto update(WorkerDto workerDto) {
-        return null;
-//        return workerMapper.mapEntityToDto(
-//                workerRepository.save(
-//                        workerMapper.mapDtoToEntity(workerDto)
-//                )
-//        );
+        return workerMapper.mapEntityToDto(
+                workerRepository.save(
+                        workerMapper.mapDtoToEntity(workerDto)
+                )
+        );
     }
 
     @Override
@@ -58,13 +55,12 @@ public class WorkerServiceImpl implements WorkerService {
 
     @Override
     public WorkerDto findById(UUID id) {
-        return null;
-//        return workerMapper.mapEntityToDto(workerRepository
-//                .findById(id)
-//                .orElseThrow(
-//                        () -> new RuntimeException("No worker with id " + id + "))))")
-//                )
-//        );
+        return workerMapper.mapEntityToDto(workerRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new RuntimeException("No worker with id " + id + "))))")
+                )
+        );
     }
 
     private Set<Worker> fetchLazyJobs(Set<Worker> workers) {

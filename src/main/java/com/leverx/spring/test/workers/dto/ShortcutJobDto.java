@@ -2,14 +2,16 @@ package com.leverx.spring.test.workers.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class WorkerDto extends ShortcutWorkerDto {
+@NoArgsConstructor
+public class ShortcutJobDto {
 
-    private Set<ShortcutJobDto> jobsDto;
+    private Long id;
+
+    private String name;
 }

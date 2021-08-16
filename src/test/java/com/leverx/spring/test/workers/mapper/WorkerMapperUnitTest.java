@@ -4,23 +4,24 @@ import com.leverx.spring.test.workers.entity.Job;
 import com.leverx.spring.test.workers.entity.Worker;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Set;
 
 import static java.util.UUID.randomUUID;
-import static org.mapstruct.factory.Mappers.getMapper;
 
 @SpringBootTest
 class WorkerMapperUnitTest {
 
     private static Long jobsCounter = 0L;
-    private final WorkerMapper workerMapper = getMapper(WorkerMapper.class);
+    @Autowired
+    private WorkerMapper workerMapper;
 
     @Test
-    void mapperMapsEntityToDto_ShouldNotHaveInfiniteCycle() {
+    void mapperMapsEntityToDto_ShouldNotThrowStackOverflow() {
         Worker worker = getDetachedWorkerWithJobs();
-        Assertions.assertDoesNotThrow(() -> workerMapper.mapFromEntityToDto(worker));
+        Assertions.assertDoesNotThrow(() -> workerMapper.mapEntityToDto(worker));
     }
 
     private Worker getDetachedWorkerWithJobs() {

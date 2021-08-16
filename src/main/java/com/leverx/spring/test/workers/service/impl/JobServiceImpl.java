@@ -18,6 +18,7 @@ import java.util.UUID;
 import static com.google.common.collect.Sets.newHashSet;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class JobServiceImpl implements JobService {
 
@@ -27,34 +28,30 @@ public class JobServiceImpl implements JobService {
     private final WorkerMapper workerMapper;
 
     @Override
-    @Transactional
     public Set<JobDto> findAll() {
-        return null;
-//        return jobMapper.mapEntityListToDto(
-//                fetchLazyWorkers(
-//                        newHashSet(jobRepository.findAll())
-//                )
-//        );
+        return jobMapper.mapEntitySetToDto(
+                fetchLazyWorkers(
+                        newHashSet(jobRepository.findAll())
+                )
+        );
     }
 
     @Override
     public JobDto create(JobDto jobDto) {
-        return null;
-//        return jobMapper.mapEntityToDto(
-//                jobRepository.save(
-//                        jobMapper.mapDtoToEntity(jobDto)
-//                )
-//        );
+        return jobMapper.mapEntityToDto(
+                jobRepository.save(
+                        jobMapper.mapDtoToEntity(jobDto)
+                )
+        );
     }
 
     @Override
     public JobDto update(JobDto jobDto) {
-        return null;
-//        return jobMapper.mapEntityToDto(
-//                jobRepository.save(
-//                        jobMapper.mapDtoToEntity(jobDto)
-//                )
-//        );
+        return jobMapper.mapEntityToDto(
+                jobRepository.save(
+                        jobMapper.mapDtoToEntity(jobDto)
+                )
+        );
     }
 
     @Override
@@ -64,14 +61,12 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void addWorkerToJob(Long jobId, UUID workerId) {
-        //        Job job = jobRepository.findById(jobId).orElseThrow(
-//                () -> new RuntimeException("No job with id " + jobId +  ")))")
-//        );
-//        Worker worker = workerMapper.mapDtoToEntity(workerService.findById(workerId));
-//        worker.getJobs().add(job);
-//
-//        job.getWorkers().add(worker);
-//        jobRepository.save(job);
+        Job job = jobRepository.findById(jobId).orElseThrow(
+                () -> new RuntimeException("No job with id " + jobId + ")))")
+        );
+        Worker worker = workerMapper.mapDtoToEntity(workerService.findById(workerId));
+        worker.addJob(job);
+        jobRepository.save(job);
     }
 
     private Set<Job> fetchLazyWorkers(Set<Job> jobs) {

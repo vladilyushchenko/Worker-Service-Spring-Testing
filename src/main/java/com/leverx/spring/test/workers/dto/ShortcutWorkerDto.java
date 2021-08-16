@@ -1,22 +1,21 @@
 package com.leverx.spring.test.workers.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
 
 @Getter
 @Setter
-@Builder
-public class WorkerWithoutJobDto {
-    @JsonProperty("id")
+@AllArgsConstructor
+@NoArgsConstructor
+public class ShortcutWorkerDto {
+
     private UUID id;
 
-    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("password")
     private String password;
 }
