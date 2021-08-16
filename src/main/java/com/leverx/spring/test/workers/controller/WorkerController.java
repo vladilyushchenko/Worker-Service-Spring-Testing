@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,12 +25,13 @@ public class WorkerController {
     }
 
     @PostMapping
-    public ResponseEntity<WorkerDto> createWorker(@RequestBody WorkerDto workerDto) {
+    public ResponseEntity<WorkerDto> createWorker(@RequestBody @Valid WorkerDto workerDto) {
         return ok(workerService.create(workerDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<WorkerDto> updateWorker(@PathVariable UUID id, @RequestBody WorkerDto workerDto) {
+    public ResponseEntity<WorkerDto> updateWorker(@PathVariable UUID id,
+                                                  @RequestBody @Valid WorkerDto workerDto) {
         workerDto.setId(id);
         return ok(workerService.create(workerDto));
     }
