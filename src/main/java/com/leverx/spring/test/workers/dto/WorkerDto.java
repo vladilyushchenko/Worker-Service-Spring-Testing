@@ -13,5 +13,5 @@ import java.util.Set;
 @AllArgsConstructor
 public class WorkerDto extends ShortcutWorkerDto {
 
-    private Set<ShortcutJobDto> jobsDto;
+    private Set<ShortcutJobDto> jobs;
 }
