@@ -9,7 +9,7 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
-public class WorkerDto extends ShortcutWorkerDto {
+public class JobDto extends ShortcutJobDto {
 
-    private Set<ShortcutJobDto> jobsDto;
+    private Set<ShortcutWorkerDto> workersDto;
 }
