@@ -4,21 +4,37 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Loader;
+import org.hibernate.annotations.SQLUpdate;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Set;
 
 import static com.google.common.collect.Sets.newHashSet;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "jobs")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Job {
+@Entity
+@Table(name = "jobs")
+@SQLUpdate(sql = "" +
+        "UPDATE jobs " +
+        "SET deleted = true " +
+        "WHERE id = ?")
+@Loader(namedQuery = "findJobById")
+@NamedQuery(name = "findJobById", query =
+            "SELECT j " +
+            "FROM Job j " +
+            "WHERE j.id = ?1 " +
+            "AND j.deleted = FALSE")
+@Where(clause = "deleted = false")
+public class Job extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -30,6 +46,7 @@ public class Job {
 
     @ManyToMany(
             fetch = LAZY,
+            cascade = { PERSIST, MERGE },
             mappedBy = "jobs"
     )
     private Set<Worker> workers;

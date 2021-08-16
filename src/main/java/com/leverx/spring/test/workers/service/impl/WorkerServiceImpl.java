@@ -1,8 +1,6 @@
 package com.leverx.spring.test.workers.service.impl;
 
 import com.leverx.spring.test.workers.dto.WorkerDto;
-import com.leverx.spring.test.workers.entity.Job;
-import com.leverx.spring.test.workers.entity.Worker;
 import com.leverx.spring.test.workers.mapper.WorkerMapper;
 import com.leverx.spring.test.workers.repository.WorkerRepository;
 import com.leverx.spring.test.workers.service.WorkerService;
@@ -24,9 +22,7 @@ public class WorkerServiceImpl implements WorkerService {
     @Override
     public Set<WorkerDto> findAll() {
         return workerMapper.mapEntitySetToDto(
-                fetchLazyJobs(
-                        newHashSet(workerRepository.findAll())
-                )
+            newHashSet(workerRepository.findAllWithFetchedJobs())
         );
     }
 
@@ -61,10 +57,5 @@ public class WorkerServiceImpl implements WorkerService {
                         () -> new RuntimeException("No worker with id " + id + "))))")
                 )
         );
-    }
-
-    private Set<Worker> fetchLazyJobs(Set<Worker> workers) {
-        workers.forEach(worker -> worker.getJobs().size());
-        return workers;
     }
 }
