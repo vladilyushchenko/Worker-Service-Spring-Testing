@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,7 +20,7 @@ public class JobController {
     private final JobService jobService;
 
     @PostMapping
-    public ResponseEntity<JobDto> createJob(@RequestBody JobDto jobDto) {
+    public ResponseEntity<JobDto> createJob(@RequestBody @Valid JobDto jobDto) {
         return ok(jobService.create(jobDto));
     }
 

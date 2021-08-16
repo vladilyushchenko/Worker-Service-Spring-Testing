@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,5 +15,6 @@ public class ShortcutJobDto {
 
     private Long id;
 
+    @NotBlank(message = "Name must not be blank!")
     private String name;
 }
